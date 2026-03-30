@@ -28,6 +28,18 @@ export interface AIConfig {
   model: string
 }
 
+const DEFAULT_MODELS: Record<string, string> = {
+  openai: 'gpt-4o-mini',
+  claude: 'claude-3-haiku-20240307',
+  zhipu: 'glm-4-flash',
+  baidu: 'ernie-3.5-8k',
+  aliyun: 'qwen-turbo',
+  tencent: 'hunyuan-standard',
+  moonshot: 'moonshot-v1-8k',
+  siliconflow: 'Qwen/Qwen2-7B-Instruct',
+  openrouter: 'anthropic/claude-3-haiku'
+}
+
 export async function callAI(config: AIConfig, contractText: string, contractType: string, stance: string): Promise<any> {
   const { provider, apiKey, model } = config
   
@@ -38,6 +50,11 @@ export async function callAI(config: AIConfig, contractText: string, contractTyp
   const apiUrl = API_URLS[provider]
   if (!apiUrl) {
     throw new Error(`不支持的 AI 提供商: ${provider}`)
+  }
+
+  const selectedModel = model || DEFAULT_MODELS[provider]
+  if (!selectedModel) {
+    throw new Error('请在设置页面选择模型')
   }
 
   const systemPrompt = buildSystemPrompt(contractType, stance)
@@ -54,7 +71,7 @@ export async function callAI(config: AIConfig, contractText: string, contractTyp
         'anthropic-version': '2023-06-01'
       },
       body: JSON.stringify({
-        model,
+        model: selectedModel,
         max_tokens: 4000,
         system: systemPrompt,
         messages: [{ role: 'user', content: userPrompt }]
@@ -70,7 +87,7 @@ export async function callAI(config: AIConfig, contractText: string, contractTyp
         'X-Title': 'Contract Review'
       },
       body: JSON.stringify({
-        model,
+        model: selectedModel,
         messages: [
           { role: 'system', content: systemPrompt },
           { role: 'user', content: userPrompt }
@@ -87,7 +104,7 @@ export async function callAI(config: AIConfig, contractText: string, contractTyp
         'Authorization': `Bearer ${apiKey}`
       },
       body: JSON.stringify({
-        model,
+        model: selectedModel,
         messages: [
           { role: 'system', content: systemPrompt },
           { role: 'user', content: userPrompt }

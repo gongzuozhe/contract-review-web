@@ -1,0 +1,93 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Noto+Sans+SC:wght@400;500;600;700&display=swap');
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --primary: #1e40af;
+  --primary-light: #3b82f6;
+  --warning: #f59e0b;
+  --warning-dark: #d97706;
+  --danger: #ef4444;
+  --success: #22c55e;
+  --gray-50: #f8fafc;
+  --gray-100: #f1f5f9;
+  --gray-200: #e2e8f0;
+  --gray-300: #cbd5e1;
+  --gray-400: #94a3b8;
+  --gray-500: #64748b;
+  --gray-600: #475569;
+  --gray-700: #334155;
+  --gray-800: #1e293b;
+  --gray-900: #0f172a;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  font-family: 'Inter', 'Noto Sans SC', system-ui, sans-serif;
+  background-color: var(--gray-50);
+  color: var(--gray-900);
+}
+
+@layer components {
+  .btn-primary {
+    @apply bg-primary-800 text-white px-6 py-3 rounded-lg font-medium 
+           hover:bg-primary-700 transition-all duration-200
+           focus:outline-none focus:ring-2 focus:ring-primary-500 focus:ring-offset-2;
+  }
+
+  .btn-secondary {
+    @apply bg-white text-gray-700 px-6 py-3 rounded-lg font-medium border border-gray-200
+           hover:bg-gray-50 transition-all duration-200
+           focus:outline-none focus:ring-2 focus:ring-gray-200 focus:ring-offset-2;
+  }
+
+  .card {
+    @apply bg-white rounded-xl shadow-sm border border-gray-100 p-6;
+  }
+
+  .input-field {
+    @apply w-full px-4 py-3 rounded-lg border border-gray-200 
+           focus:outline-none focus:ring-2 focus:ring-primary-500 focus:border-transparent
+           placeholder:text-gray-400;
+  }
+
+  .risk-high {
+    @apply bg-red-50 text-red-700 border-red-200;
+  }
+
+  .risk-medium {
+    @apply bg-warning-50 text-warning-700 border-warning-200;
+  }
+
+  .risk-low {
+    @apply bg-green-50 text-green-700 border-green-200;
+  }
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(10px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes pulse {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.5; }
+}
+
+@keyframes typing {
+  from { width: 0; }
+  to { width: 100%; }
+}
+
+.animate-fadeIn {
+  animation: fadeIn 0.5s ease-out forwards;
+}
+
+.animate-pulse-slow {
+  animation: pulse 2s ease-in-out infinite;
+}

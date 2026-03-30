@@ -197,7 +197,9 @@ export default function SettingsPage() {
               )}
               {config.provider === 'zhipu' && (
                 <>
-                  <option value="glm-4-flash">GLM-4-Flash (推荐 - 免费)</option>
+                  <option value="glm-4.7-flash">GLM-4.7-Flash (推荐)</option>
+                  <option value="glm-4-flash">GLM-4-Flash</option>
+                  <option value="glm-4-vision-flash">GLM-4-Vision-Flash</option>
                   <option value="glm-4">GLM-4</option>
                   <option value="glm-4-plus">GLM-4-Plus</option>
                   <option value="glm-3-turbo">GLM-3-Turbo</option>

@@ -1,12 +1,6 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
-  output: 'standalone',
-  outputExport: 'next',
-  experimental: {
-    serverActions: {
-      bodyParser: false
-    }
-  },
+  output: 'export',
   images: {
     unoptimized: true
   }

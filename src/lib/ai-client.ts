@@ -60,58 +60,47 @@ export async function callAI(config: AIConfig, contractText: string, contractTyp
   const systemPrompt = buildSystemPrompt(contractType, stance)
   const userPrompt = buildUserPrompt(contractText, contractType, stance)
 
+  const requestBody = (provider: string, model: string) => {
+    const base = { temperature: 0.3 }
+    if (provider === 'claude') {
+      return { model, max_tokens: 4000, system: systemPrompt, messages: [{ role: 'user', content: userPrompt }] }
+    }
+    const messages = [{ role: 'system', content: systemPrompt }, { role: 'user', content: userPrompt }]
+    if (provider === 'tencent') {
+      return { ...base, model, messages }
+    }
+    return { ...base, model, messages, response_format: { type: 'json_object' } }
+  }
+
   let response: Response
 
+  const headers: Record<string, string> = {
+    'Content-Type': 'application/json; charset=utf-8'
+  }
+
   if (provider === 'claude') {
+    headers['x-api-key'] = apiKey
+    headers['anthropic-version'] = '2023-06-01'
     response = await fetch(apiUrl, {
       method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-        'x-api-key': apiKey,
-        'anthropic-version': '2023-06-01'
-      },
-      body: JSON.stringify({
-        model: selectedModel,
-        max_tokens: 4000,
-        system: systemPrompt,
-        messages: [{ role: 'user', content: userPrompt }]
-      })
+      headers,
+      body: JSON.stringify(requestBody(provider, selectedModel))
     })
   } else if (provider === 'openrouter') {
+    headers['Authorization'] = `Bearer ${apiKey}`
+    headers['HTTP-Referer'] = 'https://contract-review.netlify.app'
+    headers['X-Title'] = 'Contract Review'
     response = await fetch(apiUrl, {
       method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-        'Authorization': `Bearer ${apiKey}`,
-        'HTTP-Referer': 'https://contract-review.netlify.app',
-        'X-Title': 'Contract Review'
-      },
-      body: JSON.stringify({
-        model: selectedModel,
-        messages: [
-          { role: 'system', content: systemPrompt },
-          { role: 'user', content: userPrompt }
-        ],
-        temperature: 0.3,
-        response_format: { type: 'json_object' }
-      })
+      headers,
+      body: JSON.stringify(requestBody(provider, selectedModel))
     })
   } else {
+    headers['Authorization'] = `Bearer ${apiKey}`
     response = await fetch(apiUrl, {
       method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-        'Authorization': `Bearer ${apiKey}`
-      },
-      body: JSON.stringify({
-        model: selectedModel,
-        messages: [
-          { role: 'system', content: systemPrompt },
-          { role: 'user', content: userPrompt }
-        ],
-        temperature: 0.3,
-        ...(provider !== 'tencent' ? { response_format: { type: 'json_object' } } : {})
-      })
+      headers,
+      body: JSON.stringify(requestBody(provider, selectedModel))
     })
   }
 

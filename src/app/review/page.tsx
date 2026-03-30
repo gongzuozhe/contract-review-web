@@ -277,12 +277,7 @@ function ReviewContent() {
               setCurrentStep(4) // 跳到最后一步
               setIsComplete(true)
               setTimeout(() => setShowFindings(true), 500)
-              return
-            } else {
-              setErrorMsg(result.error || 'AI返回数据格式错误')
-              setDataSource('mock')
-            }
-          } catch (error) {
+            } catch (error) {
             console.error('AI调用失败:', error)
             setErrorMsg(error instanceof Error ? error.message : '网络错误')
             setDataSource('mock')

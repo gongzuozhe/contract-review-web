@@ -32,9 +32,9 @@ const DEFAULT_MODELS: Record<string, string> = {
   openai: 'gpt-4o-mini',
   claude: 'claude-3-haiku-20240307',
   zhipu: 'glm-4-flash',
-  baidu: 'ernie-3.5-8k',
-  aliyun: 'qwen-turbo',
-  tencent: 'hunyuan-standard',
+  baidu: 'ernie-4.0-8k',
+  aliyun: 'qwen-plus',
+  tencent: 'hunyuan-pro',
   moonshot: 'moonshot-v1-8k',
   siliconflow: 'Qwen/Qwen2-7B-Instruct',
   openrouter: 'anthropic/claude-3-haiku'

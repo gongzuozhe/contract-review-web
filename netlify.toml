@@ -4,5 +4,8 @@
 
 [[redirects]]
   from = "/*"
-  to = "/index.html"
+  to = "/"
   status = 200
+
+[context.production.environment]
+  NEXT_TELEMETRY_DISABLED = "1"

@@ -13,7 +13,7 @@ const API_URLS: Record<string, string> = {
 const MODELS: Record<string, Record<string, string>> = {
   openai: { 'gpt-4o-mini': 'gpt-4o-mini', 'gpt-4o': 'gpt-4o', 'gpt-4-turbo': 'gpt-4-turbo' },
   claude: { 'claude-3-haiku-20240307': 'claude-3-haiku-20240307', 'claude-3-sonnet-20240229': 'claude-3-sonnet-20240229', 'claude-3-opus-20240229': 'claude-3-opus-20240229' },
-  zhipu: { 'glm-4-flash': 'glm-4-flash', 'glm-4': 'glm-4', 'glm-4-plus': 'glm-4-plus', 'glm-3-turbo': 'glm-3-turbo' },
+  zhipu: { 'glm-4-flash': 'glm-4-flash', 'glm-4': 'glm-4', 'glm-4-plus': 'glm-4-plus', 'glm-4-vision-flash': 'glm-4-vision-flash', 'glm-3-turbo': 'glm-3-turbo' },
   baidu: { 'ernie-4.0-8k': 'ernie-4.0-8k', 'ernie-3.5-8k': 'ernie-3.5-8k', 'ernie-speed-8k': 'ernie-speed-8k' },
   aliyun: { 'qwen-turbo': 'qwen-turbo', 'qwen-plus': 'qwen-plus', 'qwen-max': 'qwen-max', 'qwen-long': 'qwen-long' },
   tencent: { 'hunyuan-pro': 'hunyuan-pro', 'hunyuan-standard': 'hunyuan-standard', 'hunyuan-lite': 'hunyuan-lite' },
@@ -31,7 +31,7 @@ export interface AIConfig {
 const DEFAULT_MODELS: Record<string, string> = {
   openai: 'gpt-4o-mini',
   claude: 'claude-3-haiku-20240307',
-  zhipu: 'glm-4-flash',
+  zhipu: 'glm-4-vision-flash',
   baidu: 'ernie-4.0-8k',
   aliyun: 'qwen-plus',
   tencent: 'hunyuan-pro',

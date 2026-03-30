@@ -212,31 +212,12 @@ function ReviewContent() {
         if (aiConfig?.apiKey && contractText.length > 50) {
           try {
             setDataSource('ai')
-            const response = await fetch('/api/review', {
-              method: 'POST',
-              headers: { 'Content-Type': 'application/json' },
-              body: JSON.stringify({
-                contractText,
-                contractType,
-                stance,
-                mode: 'text',
-                aiConfig
-              })
-            })
+            const { callAI } = await import('@/lib/ai-client')
+            const aiData = await callAI(aiConfig, contractText, contractType, stance)
             
-            if (!response.ok) {
-              const errorText = await response.text()
-              console.error('API错误:', response.status, errorText)
-              setErrorMsg(`API错误: ${response.status}`)
-              setDataSource('mock')
-              return
-            }
+            console.log('API响应:', aiData)
             
-            const result = await response.json()
-            console.log('API响应:', result)
-            
-            if (result.success && result.data) {
-              const aiData = result.data
+            if (aiData && !aiData.error) {
               console.log('AI返回数据:', aiData)
               
               // 尝试从不同字段获取风险数据

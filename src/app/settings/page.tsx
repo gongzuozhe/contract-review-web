@@ -65,27 +65,21 @@ export default function SettingsPage() {
     setTestResult(null)
     
     try {
-      const response = await fetch('/api/review', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          contractText: '测试合同：甲方租用乙方房屋，租金每月1000元。',
-          contractType: '租赁合同',
-          stance: 'neutral',
-          mode: 'text',
-          aiConfig: config
-        })
-      })
+      const { callAI } = await import('@/lib/ai-client')
+      const result = await callAI(
+        config,
+        '测试合同：甲方租用乙方房屋，租金每月1000元。',
+        '租赁合同',
+        'neutral'
+      )
       
-      const data = await response.json()
-      
-      if (data.success) {
+      if (result && !result.error) {
         setTestResult({ success: true, message: 'API 连接成功！' })
       } else {
-        setTestResult({ success: false, message: data.error || 'API 调用失败' })
+        setTestResult({ success: false, message: result?.error || 'API 调用失败' })
       }
     } catch (error) {
-      setTestResult({ success: false, message: '网络错误，请检查配置' })
+      setTestResult({ success: false, message: error instanceof Error ? error.message : '网络错误，请检查配置' })
     }
     
     setTesting(false)
